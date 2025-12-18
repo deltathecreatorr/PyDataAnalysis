@@ -1,0 +1,39 @@
+MainWindow {
+    background-color: #1d2d44;
+}
+
+TitleBar {
+    background-color: #0d1321;
+}
+
+TitleBar QLabel {
+    font-size: 14px;
+    color: #f5f6fa;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+TitleBar QPushButton {
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    width: 45px;
+    height: 30px;
+    color: #f5f6fa;
+}
+
+TitleBar QPushButton:hover {
+    background-color: #353b48;
+}
+
+TitleBar #btn_close:hover {
+    background-color: #e84118;
+    color: white;
+}
+ 
+#MainToolbar {
+    background-color: #748cab;
+    border: none;
+    spacing: 10px;
+}
