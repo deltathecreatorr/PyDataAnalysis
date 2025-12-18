@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QPushButton, QToolBar, QHBoxLayout
-from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QToolBar, QWidget, QVBoxLayout, QPushButton
+from PyQt5.QtCore import Qt
 import sys
 from components.titlebar import TitleBar
 from dotenv import load_dotenv
@@ -16,12 +16,30 @@ class MainWindow(QMainWindow):
         self.titlebar = TitleBar(self)
         self.setMenuWidget(self.titlebar)
 
-        self.setup_ui()
+        self.setupUi()
 
-    def setup_ui(self):
+    def setupUi(self):
         self.toolbar = QToolBar("MainToolbar")
         self.toolbar.setObjectName("MainToolbar")
         self.addToolBar(self.toolbar)
+
+        self.central_widget = QWidget()
+        self.central_widget.setObjectName("CentralWidget")
+        self.setCentralWidget(self.central_widget)
+
+        self.layout = QVBoxLayout(self.central_widget)
+        
+        self.content_label = QLabel("Pyalysis")
+        self.content_label.setObjectName("ContentLabel")
+        self.content_label.setAlignment(Qt.AlignCenter)
+
+        self.logo
+        
+        self.action_button = QPushButton("Click Me")
+        self.action_button.setFixedSize(200, 50)
+        
+        self.layout.addWidget(self.content_label)
+        self.layout.addWidget(self.action_button, alignment=Qt.AlignCenter)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

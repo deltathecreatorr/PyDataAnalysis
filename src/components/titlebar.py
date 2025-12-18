@@ -1,5 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QPushButton
 from PyQt5.QtCore import Qt, QPoint
+from PyQt5 import QtGui
+
 
 class TitleBar(QWidget):
     def __init__(self, parent=None):
@@ -10,7 +12,12 @@ class TitleBar(QWidget):
         
         # Title Label
         self.title_label = QLabel("Pyalysis")
+        self.title_label.setObjectName("title_label")
         self.title_label.setAlignment(Qt.AlignCenter)
+
+        #Logo
+        self.logo = QLabel(self)
+        self.logo.setPixmap(QtGui.QPixmap("src/assets/logo.png").scaled(24, 24, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         
         # Control Buttons
         self.btn_minimize = QPushButton("\u2014")
@@ -26,6 +33,7 @@ class TitleBar(QWidget):
         self.btn_close.clicked.connect(self.close_window)
 
         self.layout.addWidget(self.title_label)
+        self.layout.addWidget(self.logo)
         self.layout.addStretch()
         self.layout.addWidget(self.btn_minimize)
         self.layout.addWidget(self.btn_maximize)

@@ -6,12 +6,12 @@ TitleBar {
     background-color: #0d1321;
 }
 
-TitleBar QLabel {
+TitleBar #title_label {
     font-size: 14px;
     color: #f5f6fa;
     font-family: "Segoe UI", Arial, sans-serif;
     font-weight: bold;
-    padding-left: 10px;
+    padding-left: 8px;
 }
 
 TitleBar QPushButton {
@@ -36,4 +36,11 @@ TitleBar #btn_close:hover {
     background-color: #748cab;
     border: none;
     spacing: 10px;
+}
+
+#ContentLabel {
+    font-size: 24px; 
+    color: #ffb703; 
+    font-weight: bold;
+    font-family: 'Consolas';
 }
