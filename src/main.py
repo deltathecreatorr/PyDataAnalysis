@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QToolBar, QWidget, QVBoxLayout, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QToolBar, QWidget, QVBoxLayout, QHBoxLayout, QPushButton
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap
 import sys
 from components.titlebar import TitleBar
 from dotenv import load_dotenv
@@ -23,22 +24,34 @@ class MainWindow(QMainWindow):
         self.toolbar.setObjectName("MainToolbar")
         self.addToolBar(self.toolbar)
 
-        self.central_widget = QWidget()
-        self.central_widget.setObjectName("CentralWidget")
-        self.setCentralWidget(self.central_widget)
+        self.centralWidget = QWidget()
+        self.centralWidget.setObjectName("CentralWidget")
+        self.setCentralWidget(self.centralWidget)
 
-        self.layout = QVBoxLayout(self.central_widget)
-        
+        self.layout = QVBoxLayout(self.centralWidget)
+
+        self.titleContainer = QWidget()
+        self.titleContainer.setObjectName("TitleContainer")
+        self.titleLayout = QHBoxLayout(self.titleContainer)
+        self.titleLayout.setAlignment(Qt.AlignCenter)
+
+        self.logoLabel = QLabel()
+        self.logoLabel.setObjectName("LogoLabel")
+        pixmap = QPixmap("src/assets/logo.png").scaled(50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        self.logoLabel.setPixmap(pixmap)
+
         self.content_label = QLabel("Pyalysis")
         self.content_label.setObjectName("ContentLabel")
         self.content_label.setAlignment(Qt.AlignCenter)
 
-        self.logo
-        
+        self.titleLayout.addWidget(self.logoLabel)
+        self.titleLayout.addWidget(self.content_label)
+
+        self.layout.addWidget(self.titleContainer)
+
         self.action_button = QPushButton("Click Me")
         self.action_button.setFixedSize(200, 50)
-        
-        self.layout.addWidget(self.content_label)
+        self.action_button.setObjectName("ActionButton")
         self.layout.addWidget(self.action_button, alignment=Qt.AlignCenter)
 
 if __name__ == "__main__":
