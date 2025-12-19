@@ -44,3 +44,23 @@ TitleBar #btn_close:hover {
     font-weight: bold;
     font-family: 'Consolas';
 }
+
+#StartButton {
+    background-color: #ffb703;
+    border: 2px solid #ffb703;
+    border-radius: 8px;
+    color: #0d1321;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+#StartButton:hover {
+    background-color: #fb8500;
+    border: 2px solid #fb8500;
+}
+
+#StartButton:pressed {
+    background-color: #e0aaff;
+    border: 2px solid #e0aaff;
+}

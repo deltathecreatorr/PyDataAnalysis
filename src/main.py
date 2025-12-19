@@ -40,19 +40,19 @@ class MainWindow(QMainWindow):
         pixmap = QPixmap("src/assets/logo.png").scaled(50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.logoLabel.setPixmap(pixmap)
 
-        self.content_label = QLabel("Pyalysis")
-        self.content_label.setObjectName("ContentLabel")
-        self.content_label.setAlignment(Qt.AlignCenter)
+        self.contentLabel = QLabel("Pyalysis")
+        self.contentLabel.setObjectName("ContentLabel")
+        self.contentLabel.setAlignment(Qt.AlignCenter)
 
         self.titleLayout.addWidget(self.logoLabel)
-        self.titleLayout.addWidget(self.content_label)
+        self.titleLayout.addWidget(self.contentLabel)
 
         self.layout.addWidget(self.titleContainer)
 
-        self.action_button = QPushButton("Click Me")
-        self.action_button.setFixedSize(200, 50)
-        self.action_button.setObjectName("ActionButton")
-        self.layout.addWidget(self.action_button, alignment=Qt.AlignCenter)
+        self.startButton = QPushButton("Get Started")
+        self.startButton.setFixedSize(300, 50)
+        self.startButton.setObjectName("StartButton")
+        self.layout.addWidget(self.startButton, alignment=Qt.AlignCenter)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
