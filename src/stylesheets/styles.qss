@@ -64,3 +64,83 @@ TitleBar #btn_close:hover {
     background-color: #e0aaff;
     border: 2px solid #e0aaff;
 }
+
+#BackButton {
+    background-color: #ffb703;
+    text-align: center;
+    border: 2px solid #ffb703;
+    border-radius: 8px;
+    color: #0d1321;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+#BackButton:hover {
+    background-color: #fb8500;
+    border: 2px solid #ff8500;
+}
+
+#BackButton:pressed {
+    background-color: #e0aaff;
+    border: 2px solid #e0aaff;
+
+}
+
+#ApiKeyLabel {
+    font-size: 24px;
+    color: #ffb703;
+    font-family: 'Consolas';
+    font-weight: bold;
+}
+
+#ApiKeyInput {
+    font-size: 20px;
+    background-color: #f0ebd8;
+    font-family: 'Consolas';
+    font-weight: bold;
+    padding: 5px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+}
+
+#ApiKeyInput:focus {
+    border: 2px solid #ffb703;
+}
+
+#SubmitButton {
+    background-color: #ffb703;
+    border: 2px solid #ffb703;
+    border-radius: 8px;
+    color: #0d1321;
+    font-family: 'Consolas';
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#SubmitButton:hover {
+    background-color: #fb8500;
+    border: 2px solid #fb8500;
+}
+
+#OfflineLabel {
+    font-size: 18px;
+    color: #ffb703;
+    font-family: 'Consolas';
+    font-weight: bold;
+}
+
+#OfflineButton {
+    background-color: #ffb703;
+    border: 2px solid #ffb703;
+    border-radius: 8px;
+    color: #0d1321;
+    font-family: 'Consolas';
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#OfflineButton:hover {
+    background-color: #fb8500;
+    border: 2px solid #fb8500;
+}
