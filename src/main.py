@@ -1,10 +1,13 @@
 from PyQt5.QtWidgets import QStackedLayout, QApplication, QMainWindow, QLabel, QToolBar, QWidget, QVBoxLayout, QHBoxLayout, QPushButton
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
-import sys
 from components.titlebar import TitleBar
 from pages.api_key import ApiKeyPage
+from pages.dashboard import DashboardPage
+from config import SERVICE_ID, USERNAME
 from dotenv import load_dotenv
+import sys
+import keyring
 
 load_dotenv()
 
@@ -61,19 +64,32 @@ class MainWindow(QMainWindow):
         self.startButton.setFixedSize(300, 50)
         self.startButton.setObjectName("StartButton")
         self.homePageLayout.addWidget(self.startButton, alignment=Qt.AlignCenter)
-        self.startButton.clicked.connect(self.showApiKeyPage)
+        self.startButton.clicked.connect(self.showGetStartedPage)
 
         self.stackLayout.addWidget(self.homePage)
 
         self.apiKeyPage = ApiKeyPage()
         self.apiKeyPage.backClicked.connect(self.showHomePage)
+        self.apiKeyPage.submitted.connect(self.showDashboardPage)
         self.stackLayout.addWidget(self.apiKeyPage)
 
-    def showApiKeyPage(self):
-        self.stackLayout.setCurrentWidget(self.apiKeyPage)
+        self.dashboardPage = DashboardPage()
+        self.dashboardPage.backClicked.connect(self.showHomePage)
+        self.stackLayout.addWidget(self.dashboardPage)
+
+    def showGetStartedPage(self):
+        if keyring.get_password(SERVICE_ID, USERNAME):
+            print("API Key already stored.")
+            self.showDashboardPage()
+        else:
+
+            self.stackLayout.setCurrentWidget(self.apiKeyPage)
 
     def showHomePage(self):
         self.stackLayout.setCurrentWidget(self.homePage)
+    
+    def showDashboardPage(self):
+        self.stackLayout.setCurrentWidget(self.dashboardPage)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

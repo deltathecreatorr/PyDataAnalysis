@@ -1,10 +1,13 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel
 from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtGui import QPixmap
 from components.backButton import BackButton
+from config import SERVICE_ID, USERNAME
+import keyring
+
 
 class ApiKeyPage(QWidget):
     backClicked = pyqtSignal()
+    submitted = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -44,6 +47,7 @@ class ApiKeyPage(QWidget):
         self.submitButton.setObjectName("SubmitButton")
         self.submitButton.setFixedWidth(100)
         centerLayout.addWidget(self.submitButton, alignment=Qt.AlignCenter)
+        self.submitButton.clicked.connect(self.getApiKey)
 
         self.layout.addLayout(centerLayout)
         self.layout.addStretch()
@@ -61,3 +65,8 @@ class ApiKeyPage(QWidget):
         self.layout.addWidget(self.offlineButton, alignment=Qt.AlignCenter)
 
         self.layout.addStretch()
+
+    def getApiKey(self):
+        api_key = self.apiKeyInput.text()
+        keyring.set_password(SERVICE_ID, USERNAME, api_key)
+        self.submitted.emit()
