@@ -1,7 +1,8 @@
-from PyQt5.QtWidgets import QStackedLayout, QApplication, QMainWindow, QLabel, QToolBar, QWidget, QVBoxLayout, QHBoxLayout, QPushButton
+from PyQt5.QtWidgets import QStackedLayout, QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QHBoxLayout, QPushButton
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from components.titlebar import TitleBar
+from components.toolbar import Toolbar
 from pages.api_key import ApiKeyPage
 from pages.dashboard import DashboardPage
 from config import SERVICE_ID, USERNAME
@@ -21,13 +22,13 @@ class MainWindow(QMainWindow):
         self.titlebar = TitleBar(self)
         self.setMenuWidget(self.titlebar)
 
+        self.toolbar = Toolbar(self)
+        self.addToolBar(self.toolbar)
+        self.toolbar.hide()
+
         self.setupUi()
 
     def setupUi(self):
-        self.toolbar = QToolBar("MainToolbar")
-        self.toolbar.setObjectName("MainToolbar")
-        self.addToolBar(self.toolbar)
-
         self.centralWidget = QWidget()
         self.centralWidget.setObjectName("CentralWidget")
         self.setCentralWidget(self.centralWidget)
@@ -82,13 +83,19 @@ class MainWindow(QMainWindow):
             print("API Key already stored.")
             self.showDashboardPage()
         else:
-
+            self.toolbar.hide()
             self.stackLayout.setCurrentWidget(self.apiKeyPage)
 
     def showHomePage(self):
+        self.toolbar.hide()
         self.stackLayout.setCurrentWidget(self.homePage)
+
+    def showApiKeyPage(self):
+        self.toolbar.hide()
+        self.stackLayout.setCurrentWidget(self.apiKeyPage)
     
     def showDashboardPage(self):
+        self.toolbar.show()
         self.stackLayout.setCurrentWidget(self.dashboardPage)
 
 if __name__ == "__main__":
