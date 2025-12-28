@@ -1,33 +1,54 @@
-from mp_api.client import MPRester
-from config import SERVICE_ID, USERNAME
-import keyring
+import sqlite3
+from config import DB_NAME
 
-def fetch_data():
+def add_record(material_id, formula, data):
     try:
-        api_key = keyring.get_password(SERVICE_ID, USERNAME)
-        if not api_key:
-            raise ValueError("API key not found. Please set your API key.")
-        
-        magnetic_candidates = {}
-
-        with MPRester(api_key) as mpr:
-            formula = "Ac2MgSn"
-            materials = mpr.materials.summary.search(formula=formula)
-            materials_ids = [(material.material_id, material.formula_pretty) for material in materials]
-            print(materials_ids)
-
-            magnets = mpr.materials.magnetism.search(
-                material_ids=[material_id for material_id, _ in materials_ids],
-                fields=["material_id","elements", "total_magnetization", "ordering"]
-            )
-            for material in magnets:
-                if material.total_magnetization and abs(material.total_magnetization) > 0.1:
-                
-                    magnetic_candidates[material.material_id] = {
-                        "strength": round(material.total_magnetization, 3),
-                        "type": material.ordering  # e.g., 'FM', 'FiM'
-                    }
+        with sqlite3.connect(DB_NAME) as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS records (
+                    id TEXT PRIMARY KEY,
+                    formula TEXT,
+                    data TEXT NOT NULL
+                )
+            """)
+            # Check if formula column exists (migration for existing db)
+            cursor.execute("PRAGMA table_info(records)")
+            columns = [info[1] for info in cursor.fetchall()]
+            if 'formula' not in columns:
+                cursor.execute("ALTER TABLE records ADD COLUMN formula TEXT")
             
-        print("Magnetic Candidates:", magnetic_candidates)
-    except Exception as e:
-        print(f"Error: {e}")
+            cursor.execute("INSERT OR REPLACE INTO records (id, formula, data) VALUES (?, ?, ?)", (material_id, formula, data))
+            conn.commit()
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+
+def find_by_formula(formula):
+    try:
+        with sqlite3.connect(DB_NAME) as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT id, data FROM records WHERE formula = ?", (formula,))
+            return cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+        return []
+
+def find_record(material_id):
+    try:
+        with sqlite3.connect(DB_NAME) as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT data FROM records WHERE id = ?", (material_id,))
+            result = cursor.fetchone()
+            return result[0] if result else None
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+
+def remove_record(material_id):
+    try:
+        with sqlite3.connect(DB_NAME) as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM records WHERE id = ?", (material_id,))
+            conn.commit()
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+

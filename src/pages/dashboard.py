@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
-from api.database import fetch_data
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel, QLineEdit
+from api.mpAPI import fetch_data
 from PyQt5.QtCore import pyqtSignal
 
 class DashboardPage(QWidget):
@@ -12,10 +12,22 @@ class DashboardPage(QWidget):
 
     def setupUi(self):
         self.layout = QVBoxLayout(self)
-        self.button = QPushButton("fetch data")
-        self.button.setObjectName("FetchDataButton")
-        self.button.clicked.connect(fetch_data)
-        self.layout.addWidget(self.button)
+        self.QLabel = QLabel("Enter a formula for the magnetic material", self)
+        self.QLabel.setObjectName("InstructionLabel")
+        self.layout.addWidget(self.QLabel)
+
+        self.formulaInput = QLineEdit(self)
+        self.formulaInput.setObjectName("FormulaInput")
+        self.layout.addWidget(self.formulaInput)
+
+        self.findButton = QPushButton("Find Magnetic Materials", self)
+        self.findButton.setObjectName("FindButton")
+        self.findButton.clicked.connect(self.onFindClicked)
+        self.layout.addWidget(self.findButton)
+
+    def onFindClicked(self):
+        formula = self.formulaInput.text()
+        fetch_data(formula)
 
 
 
