@@ -1,19 +1,33 @@
 from mp_api.client import MPRester
 from config import SERVICE_ID, USERNAME
-from api.database import add_record, find_record, remove_record
+from api.database import add_record, find_record, remove_record, find_by_formula
+from config import OFFLINE_MODE
 import keyring
 import json
 
 def fetch_data(formula):
     try:
+        formula = formula.strip()
+        magnetic_candidates = {}
+
+        # Check local database first
+        local_records = find_by_formula(formula)
+        if local_records:
+            print(f"Found {len(local_records)} records in local database.")
+            for m_id, data in local_records:
+                magnetic_candidates[m_id] = json.loads(data)
+            print("Magnetic Candidates from local DB:", magnetic_candidates)
+            return magnetic_candidates
+
+        if OFFLINE_MODE:
+            print("Offline mode is enabled. Skipping API calls.")
+            return magnetic_candidates
+
         api_key = keyring.get_password(SERVICE_ID, USERNAME)
         if not api_key:
             raise ValueError("API key not found. Please set your API key.")
-        
-        magnetic_candidates = {}
 
         with MPRester(api_key) as mpr:
-            formula = formula.strip()
             materials = mpr.materials.summary.search(formula=formula)
             materials_ids = [(str(material.material_id), material.formula_pretty) for material in materials]
             print(materials_ids)

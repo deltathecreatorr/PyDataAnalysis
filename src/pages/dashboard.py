@@ -12,9 +12,15 @@ class DashboardPage(QWidget):
 
     def setupUi(self):
         self.layout = QVBoxLayout(self)
-        self.QLabel = QLabel("Enter a formula for the magnetic material", self)
-        self.QLabel.setObjectName("InstructionLabel")
-        self.layout.addWidget(self.QLabel)
+
+        self.explanationLabel = QLabel("This is the Query Page! Search up magnetic materials by their chemical formula. The information retrieved is used to find suitable materials for a magnetic data storage drive.", self)
+        self.explanationLabel.setWordWrap(True)
+        self.explanationLabel.setObjectName("ExplanationLabel")
+        self.layout.addWidget(self.explanationLabel)
+
+        self.instructionLabel = QLabel("Enter a formula to find your magnetic material", self)
+        self.instructionLabel.setObjectName("InstructionLabel")
+        self.layout.addWidget(self.instructionLabel)
 
         self.formulaInput = QLineEdit(self)
         self.formulaInput.setObjectName("FormulaInput")
@@ -22,12 +28,22 @@ class DashboardPage(QWidget):
 
         self.findButton = QPushButton("Find Magnetic Materials", self)
         self.findButton.setObjectName("FindButton")
+        self.findButton.setEnabled(False)
         self.findButton.clicked.connect(self.onFindClicked)
         self.layout.addWidget(self.findButton)
 
+        self.formulaInput.textChanged.connect(self.onTextChanged)
+
+    def onTextChanged(self, text):
+        if text.strip():
+            self.findButton.setEnabled(True)
+        else:
+            self.findButton.setEnabled(False)
+
     def onFindClicked(self):
         formula = self.formulaInput.text()
-        fetch_data(formula)
+        if formula.strip():
+            fetch_data(formula)
 
 
 
