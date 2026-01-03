@@ -73,6 +73,14 @@ def fetch_data(formula):
                     fields=["material_id","formula_pretty", "total_magnetization_normalized_formula_units", "is_magnetic", "ordering"]
                 )
                 for material in magnets:
+                    if not material.is_magnetic:
+                        continue
+                    if material.total_magnetization_normalized_formula_units is None:
+                        continue
+                    if material.total_magnetization_normalized_formula_units <= 0:
+                        continue
+                    if material.ordering == "NM" or material.ordering == "AFM":
+                        continue
                     data = {
                         "normalized_magnetisation_units": round(material.total_magnetization_normalized_formula_units, 6),
                         "is_magnetic": bool(material.is_magnetic),

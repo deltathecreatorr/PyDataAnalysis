@@ -21,7 +21,7 @@ class MaterialSelectionPage(QWidget):
         topLayout.addStretch()
         self.layout.addLayout(topLayout)
 
-        self.optionLabel = QLabel("Select the material from the list below. Feel free to confirm with the Materials Project website to ensure it's the right molecule.", self)
+        self.optionLabel = QLabel("Select the material from the list below. Feel free to confirm with the Materials Project website to ensure it's the right molecule. Please note that only ferromagnetic and ferrimagnetic materials are listed, as only those types are suitable for data storage.", self)
         self.optionLabel.setObjectName("OptionLabel")
         self.optionLabel.setWordWrap(True)
         self.optionLabel.setAlignment(Qt.AlignCenter)
@@ -50,9 +50,6 @@ class MaterialSelectionPage(QWidget):
                 stats.append(f"Mag: {data['normalized_magnetisation_units']} µB")
             if 'type' in data:
                 stats.append(f"Type: {data['type']}")
-            if 'is_magnetic' in data:
-                mag_status = "Magnetic" if data['is_magnetic'] else "Non-magnetic"
-                stats.append(mag_status)
             
             stats_str = " | ".join(stats)
             display_text = f"{formula} ({m_id})\n{stats_str}"
