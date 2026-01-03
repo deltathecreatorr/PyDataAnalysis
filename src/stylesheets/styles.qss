@@ -214,3 +214,80 @@ TitleBar #btn_close:hover {
     background-color: #fb8500;
     border: 2px solid #fb8500;
 }
+
+#OptionLabel {
+    font-size: 18px;
+    color: #ffb703;
+    font-family: 'Consolas';
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+
+#MaterialListWidget {
+    font-size: 18px;
+    border: 2px solid #ffb703;
+    border-radius: 8px;
+    color: #ffb703;
+    background-color: #1d2d44;
+    font-family: 'Consolas';
+    font-weight: bold;
+    padding: 4px;
+    spacing: 8px;
+}
+
+#MaterialListWidget::item {
+    border: 2px solid #ffb703;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 2px;
+}
+
+QScrollBar:vertical {
+    border: 2px solid #ffb703;
+    background: #1d2d44;
+    width: 18px;
+    margin: 0px;
+    border-radius: 8px;
+}
+
+QScrollBar::handle:vertical {
+    background: #ffb703;
+    min-height: 20px;
+    border-radius: 4px;
+    margin: 2px;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+    background: none;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: #1d2d44;
+    border-radius: 8px;
+}
+
+QScrollBar:horizontal {
+    border: 2px solid #ffb703;
+    background: #1d2d44;
+    height: 18px;
+    margin: 0px;
+    border-radius: 8px;
+}
+
+QScrollBar::handle:horizontal {
+    background: #ffb703;
+    min-width: 20px;
+    border-radius: 4px;
+    margin: 2px;
+}
+
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    width: 0px;
+    background: none;
+}
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: #1d2d44;
+    border-radius: 8px;
+}

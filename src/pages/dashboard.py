@@ -4,6 +4,7 @@ from PyQt5.QtCore import pyqtSignal
 
 class DashboardPage(QWidget):
     backClicked = pyqtSignal()
+    materialsFound = pyqtSignal(dict)
 
     def __init__(self):
         super().__init__()
@@ -18,7 +19,7 @@ class DashboardPage(QWidget):
         self.explanationLabel.setObjectName("ExplanationLabel")
         self.layout.addWidget(self.explanationLabel)
 
-        self.instructionLabel = QLabel("Enter a formula to find your magnetic material", self)
+        self.instructionLabel = QLabel("Enter a formula to find your magnetic material, for example, Fe3O4.", self)
         self.instructionLabel.setObjectName("InstructionLabel")
         self.layout.addWidget(self.instructionLabel)
 
@@ -43,7 +44,9 @@ class DashboardPage(QWidget):
     def onFindClicked(self):
         formula = self.formulaInput.text()
         if formula.strip():
-            fetch_data(formula)
+            materialList = fetch_data(formula)
+            if materialList is not None:
+                self.materialsFound.emit(materialList)
 
 
 

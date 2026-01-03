@@ -5,6 +5,8 @@ from components.titlebar import TitleBar
 from components.toolbar import Toolbar
 from pages.api_key import ApiKeyPage
 from pages.dashboard import DashboardPage
+from pages.materialSelection import MaterialSelectionPage
+from pages.analysis import AnalysisPage
 from config import SERVICE_ID, USERNAME
 from dotenv import load_dotenv
 import sys
@@ -76,7 +78,17 @@ class MainWindow(QMainWindow):
 
         self.dashboardPage = DashboardPage()
         self.dashboardPage.backClicked.connect(self.showHomePage)
+        self.dashboardPage.materialsFound.connect(self.showMaterialSelectionPage)
         self.stackLayout.addWidget(self.dashboardPage)
+
+        self.materialSelectionPage = MaterialSelectionPage()
+        self.materialSelectionPage.backClicked.connect(self.showDashboardPage)
+        self.materialSelectionPage.materialSelected.connect(self.showAnalysisPage)
+        self.stackLayout.addWidget(self.materialSelectionPage)
+
+        self.analysisPage = AnalysisPage()
+        self.analysisPage.backClicked.connect(self.showMaterialSelectionPage)
+        self.stackLayout.addWidget(self.analysisPage)
 
     def showGetStartedPage(self):
         if keyring.get_password(SERVICE_ID, USERNAME):
@@ -97,6 +109,19 @@ class MainWindow(QMainWindow):
     def showDashboardPage(self):
         self.toolbar.show()
         self.stackLayout.setCurrentWidget(self.dashboardPage)
+
+    def showMaterialSelectionPage(self, materialList=None):
+        self.toolbar.show()
+        if materialList:
+            self.materialSelectionPage.updateMaterials(materialList)
+        self.stackLayout.setCurrentWidget(self.materialSelectionPage)
+    
+    def showAnalysisPage(self, material_id):
+        self.toolbar.show()
+        self.analysisPage.setMaterial(material_id)
+        self.stackLayout.setCurrentWidget(self.analysisPage)
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
