@@ -2,12 +2,20 @@
 from PyQt5.QtWidgets import QToolBar, QAction, QMenu, QToolButton
 
 class Toolbar(QToolBar):
+    """
+    The Custom Toolbar widget that allows the user to go directly to the menu where they can change their api key.
+    """
+    
     def __init__(self, parent=None):
         super().__init__("MainToolbar", parent)
         self.setObjectName("MainToolbar")
         self.setupActions()
 
     def setupActions(self):
+        """
+        Sets up the toolbar individual widgets.
+        """
+        
         self.file_button = QToolButton(self)
         self.file_button.setText("File")
         self.file_button.setObjectName("FileButton")
@@ -26,5 +34,9 @@ class Toolbar(QToolBar):
         self.addWidget(self.file_button)
 
     def api_keyClicked(self):
+        """
+        Redirects the user to the api key menu.
+        """
+        
         if self.parent():
             self.parent().showApiKeyPage()

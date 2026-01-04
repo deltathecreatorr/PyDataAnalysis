@@ -6,6 +6,10 @@ import keyring
 
 
 class ApiKeyPage(QWidget):
+    """
+    The page where the user enters the api key or confirms they want to only use the local database with the system.
+    """
+    
     backClicked = pyqtSignal()
     submitted = pyqtSignal()
 
@@ -16,6 +20,14 @@ class ApiKeyPage(QWidget):
         self.setupOffline()
 
     def setupUi(self):
+        """
+        Sets up the widgets for the Ui.
+        
+        Keyword arguments:
+        argument -- description
+        Return: return_description
+        """
+        
         self.layout = QVBoxLayout(self)
 
         # Top bar with back button
@@ -53,6 +65,10 @@ class ApiKeyPage(QWidget):
         self.layout.addStretch()
 
     def setupOffline(self):
+        """
+        Sets up the widgets for the UI, where the user can confirm they want only ues the local database.
+        """
+        
         self.offlineLabel = QLabel("You can also use Pyalysis in offline mode without an API key. This will mean that only materials previously fetched will be accessible. This is not recommended if you are using Pyalysis for the first time.")
         self.offlineLabel.setWordWrap(True)
         self.offlineLabel.setObjectName("OfflineLabel")
@@ -67,6 +83,10 @@ class ApiKeyPage(QWidget):
         self.layout.addStretch()
 
     def getApiKey(self):
+        """
+        Uses the user's credential manager to store the api key for the program, so the user does not need to re-enter the api key every time the program is opened.
+        """
+        
         api_key = self.apiKeyInput.text()
         keyring.set_password(SERVICE_ID, USERNAME, api_key)
         self.submitted.emit()

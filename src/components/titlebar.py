@@ -4,6 +4,10 @@ from PyQt5 import QtGui
 
 
 class TitleBar(QWidget):
+    """
+    The custom titlebar widget with a logo and window options.
+    """
+    
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setAttribute(Qt.WA_StyledBackground, True)
@@ -22,12 +26,11 @@ class TitleBar(QWidget):
         # Control Buttons
         self.btn_minimize = QPushButton("\u2014")
         self.btn_minimize.setObjectName("btn_minimize")
-        self.btn_minimize.clicked.connect(self.minimize_window)
+        self.btn_minimize.clicked.connect(self.minimise_window)
 
         self.btn_maximize = QPushButton("\u21F1")
         self.btn_maximize.setObjectName("btn_maximize")
-        self.btn_maximize.clicked.connect(self.maximize_window)
-
+        self.btn_maximize.clicked.connect(self.maximise_window)
         self.btn_close = QPushButton("\u2715")
         self.btn_close.setObjectName("btn_close")
         self.btn_close.clicked.connect(self.close_window)
@@ -45,25 +48,50 @@ class TitleBar(QWidget):
 
     # Button Actions
     def mousePressEvent(self, event):
+        """
+        Handles the mouse press event to initiate window dragging.
+        
+        **Arguments**
+            *event*
+                - The mouse event containing information about the mouse press.
+        """
+        
         self.start = self.mapToGlobal(event.pos())
         self.pressing = True
 
-    def minimize_window(self):
-        self.window().showMinimized()
+    def minimise_window(self):
+        """
+        Minimises the window.
+        """
+        
+        self.window().showMinimised()
 
-    def maximize_window(self):
-        if self.window().isMaximized():
+    def maximise_window(self):
+        """
+        Maximises the window.
+        """
+        
+        if self.window().isMaximised():
             self.window().showNormal()
         else:
-            self.window().showMaximized()
+            self.window().showMaximised()
 
     def close_window(self):
+        """
+        Closes the window
+        """
+        
         self.window().close()
 
     def mouseReleaseEvent(self, event):
+
         self.pressing = False
 
     def mouseMoveEvent(self, event):
+        """
+        Handles the mouse move event to allow window dragging.
+        """
+        
         if self.pressing:
             end = self.mapToGlobal(event.pos())
             movement = end - self.start

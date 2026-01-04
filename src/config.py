@@ -1,3 +1,5 @@
+# Configuration file for Pyalysis application
+
 SERVICE_ID = "pyalysis"
 USERNAME = "api_key"
 DB_NAME = "pyalysis.db"

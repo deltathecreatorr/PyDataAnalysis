@@ -2,6 +2,17 @@ import sqlite3
 from config import DB_NAME
 
 def add_record(material_id, formula, data):
+    """
+    Adds a new record to the database or updates an existing one.
+    
+    **Arguments**
+        *material_id* (str)
+            - The unique identifier for the material.
+        *formula* (str)
+            - The chemical formula of the material.
+        *data* (str)
+            - The JSON string representation of the material data.
+    """
     try:
         with sqlite3.connect(DB_NAME) as conn:
             cursor = conn.cursor()
@@ -24,6 +35,17 @@ def add_record(material_id, formula, data):
         print(f"Database error: {e}")
 
 def find_by_formula(formula):
+    """
+    Retrieves all records matching a specific chemical formula.
+    
+    **Arguments**
+        *formula* (str)
+            - The chemical formula to search for.
+            
+    **Returns**
+        *list*
+            - A list of tuples containing (id, data) for matching records.
+    """
     try:
         with sqlite3.connect(DB_NAME) as conn:
             cursor = conn.cursor()
@@ -34,6 +56,17 @@ def find_by_formula(formula):
         return []
 
 def find_record(material_id):
+    """
+    Retrieves a specific record by its material ID.
+    
+    **Arguments**
+        *material_id* (str)
+            - The unique identifier of the material to retrieve.
+            
+    **Returns**
+        *str* or *None*
+            - The JSON data string if found, otherwise None.
+    """
     try:
         with sqlite3.connect(DB_NAME) as conn:
             cursor = conn.cursor()

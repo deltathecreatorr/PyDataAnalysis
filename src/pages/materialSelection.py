@@ -3,6 +3,10 @@ from PyQt5.QtCore import pyqtSignal, Qt
 from components.backButton import BackButton
 
 class MaterialSelectionPage(QWidget):
+    """
+    The page where the user has to select the right molecule from the materials with the given formula.
+    """
+    
     backClicked = pyqtSignal()
     materialSelected = pyqtSignal(str)
 
@@ -12,6 +16,14 @@ class MaterialSelectionPage(QWidget):
         self.setupUi()
 
     def setupUi(self):
+        """
+        Sets up all the widget for the UI, and handles all the information from the database.
+        
+        Keyword arguments:
+        argument -- description
+        Return: return_description
+        """
+        
         self.layout = QVBoxLayout(self)
 
         topLayout = QHBoxLayout()
@@ -33,6 +45,14 @@ class MaterialSelectionPage(QWidget):
         self.layout.addWidget(self.materialListWidget)
 
     def updateMaterials(self, materials):
+        """
+        Handles the labels for the data from the database.
+        
+        **Arguments**
+            *Materials* (dict):
+                - The materials data fetched from the database. Stored as a dictionary with material IDs as keys and their data as values.
+        """
+        
         self.materialListWidget.clear()
         for m_id, data in materials.items():
             formula = data.get('formula_pretty', 'Unknown')
@@ -56,6 +76,14 @@ class MaterialSelectionPage(QWidget):
             self.materialListWidget.addItem(display_text)
 
     def onMaterialSelected(self, item):
+        """
+        Gets the material id from the data dictionary and emits the material id.
+        
+        **Arguments**
+            *item* (QListWidgetItem):
+                - The item clicked in the material list widget.
+        """
+        
         text = item.text()
         m_id = text.split('(')[-1].strip(')')
         self.materialSelected.emit(m_id)

@@ -6,6 +6,19 @@ import keyring
 import json
 
 def fetch_data(formula):
+    """
+    Fetches material data for a given chemical formula from the local database or the Materials Project API.
+
+    **Arguments**
+        *formula* (str)
+            - The chemical formula to search for (e.g., "Fe3O4").
+
+    **Returns**
+        *dict*
+            - A dictionary where keys are material IDs and values are dictionaries containing material properties 
+              (e.g., formula, crystal system, band gap, etc.). Returns an empty dictionary if no materials are found.
+    """
+    
     try:
         formula = formula.strip()
         magnetic_candidates = {}
@@ -24,6 +37,7 @@ def fetch_data(formula):
                 print("Magnetic Candidates from local DB:", magnetic_candidates)
                 return magnetic_candidates
 
+        #Check if the user wants to be in offline mode
         if OFFLINE_MODE:
             print("Offline mode is enabled. Skipping API calls.")
             return magnetic_candidates
@@ -32,14 +46,17 @@ def fetch_data(formula):
         if not api_key:
             raise ValueError("API key not found. Please set your API key.")
 
+        # Fetch data from Materials Project API
         with MPRester(api_key) as mpr:
+            # First, get summary data to filter by formula
             materials = mpr.materials.summary.search(
                 formula=formula,
                 fields=["material_id", "formula_pretty", "symmetry", "nsites", "energy_above_hull", "band_gap"]
             )
             
+            # Use JSON to store summary data for quick access
             summary_data = {}
-            for material in materials:
+            for material in materials:  
                 m_id = str(material.material_id)
                 summary_data[m_id] = {
                     "spacegroup_symbol": material.symmetry.symbol if material.symmetry else None,
@@ -51,6 +68,7 @@ def fetch_data(formula):
             materials_ids = [(str(material.material_id), material.formula_pretty) for material in materials]
             print(materials_ids)
 
+            # Now, check local DB for magnetism data
             ids_to_fetch = []
             for m_id, formula_pretty in materials_ids:
                 record = find_record(m_id)
@@ -67,6 +85,7 @@ def fetch_data(formula):
                 else:
                     ids_to_fetch.append(m_id)
 
+            # Fetch magnetism data for missing records from Materials Project API
             if ids_to_fetch:
                 magnets = mpr.materials.magnetism.search(
                     material_ids=ids_to_fetch,
