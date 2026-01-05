@@ -10,6 +10,9 @@ import json
 from scipy.constants import h, c, e
 
 class AnalysisPage(QWidget):
+    """
+    The page where the analysis of the selected material is shown, including band gap, energy above hull, wavelength absorption, and density of states plot.
+    """
     backClicked = pyqtSignal()
 
     def __init__(self):
@@ -83,6 +86,12 @@ class AnalysisPage(QWidget):
         self.layout.addWidget(self.disclaimerLabel)
 
     def setMaterial(self, material_id):
+        """
+        Sets the material to be analyzed and updates the UI with its data.
+        **Arguments**
+            *material_id* (str):
+                - The material ID of the selected material.
+        """
         self.material_id = material_id
         record_str = find_record(material_id)
         
@@ -125,12 +134,22 @@ class AnalysisPage(QWidget):
             self.materialTitleLabel.setText(f"Material ID: {material_id} not found in database.")
 
     def clearPlot(self):
+        """
+        Clears the existing DOS plot from the layout.
+        """
         while self.plotLayout.count():
             child = self.plotLayout.takeAt(0)
             if child.widget():
                 child.widget().deleteLater()
 
     def plotDOS(self, dos_data):
+        """
+        Plots the Density of States (DOS) using the provided DOS data.
+        **Arguments**
+            *dos_data* (dict):
+                - The DOS data containing energies and densities.
+        """
+        
         energies = np.array(dos_data['energies'])
         efermi = dos_data['efermi']
         adjusted_energies = energies - efermi
