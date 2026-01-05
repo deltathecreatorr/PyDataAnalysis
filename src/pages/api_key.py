@@ -17,15 +17,10 @@ class ApiKeyPage(QWidget):
         super().__init__()
         self.setObjectName("apiKeyPage")
         self.setupUi()
-        self.setupOffline()
 
     def setupUi(self):
         """
-        Sets up the widgets for the Ui.
-        
-        Keyword arguments:
-        argument -- description
-        Return: return_description
+        Sets up the widgets for the UI.
         """
         
         self.layout = QVBoxLayout(self)
@@ -62,24 +57,6 @@ class ApiKeyPage(QWidget):
         self.submitButton.clicked.connect(self.getApiKey)
 
         self.layout.addLayout(centerLayout)
-        self.layout.addStretch()
-
-    def setupOffline(self):
-        """
-        Sets up the widgets for the UI, where the user can confirm they want only ues the local database.
-        """
-        
-        self.offlineLabel = QLabel("You can also use Pyalysis in offline mode without an API key. This will mean that only materials previously fetched will be accessible. This is not recommended if you are using Pyalysis for the first time.")
-        self.offlineLabel.setWordWrap(True)
-        self.offlineLabel.setObjectName("OfflineLabel")
-        self.offlineLabel.setAlignment(Qt.AlignCenter)
-        self.layout.addWidget(self.offlineLabel)
-
-        self.offlineButton = QPushButton("Continue Offline")
-        self.offlineButton.setObjectName("OfflineButton")
-        self.offlineButton.setFixedWidth(150)
-        self.layout.addWidget(self.offlineButton, alignment=Qt.AlignCenter)
-
         self.layout.addStretch()
 
     def getApiKey(self):

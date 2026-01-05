@@ -291,3 +291,86 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
     background: #1d2d44;
     border-radius: 8px;
 }
+
+#MinBandGapLabel {
+    font-size: 20px;
+    background-color: #f0ebd8;
+    font-family: 'Consolas';
+    font-weight: bold;
+    padding: 5px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+}
+
+#MinBandGapLabel:focus {
+    border: 2px solid #ffb703;
+}
+
+#MaxBandGapLabel {
+    font-size: 20px;
+    background-color: #f0ebd8;
+    font-family: 'Consolas';
+    font-weight: bold;
+    padding: 5px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+}
+
+#MaxBandGapLabel:focus {
+    border: 2px solid #ffb703;
+}
+
+#MaterialTitleLabel {
+    font-size: 24px;
+    font-family: 'Consolas';
+    font-weight: bold;
+    color: #ffb703;
+}
+
+#BandGapLabel {
+    font-size: 20px;
+    font-family: 'Consolas';
+    font-weight: bold;
+    color: #ffb703;
+    padding-left: 4px;
+}
+
+#EnergyAHLabel {
+    font-size: 20px;
+    font-family: 'Consolas';
+    font-weight: bold;
+    color: #ffb703;
+    padding-left: 4px;
+}
+
+#WavelengthLabel {
+    font-size: 20px;
+    font-family: 'Consolas';
+    font-weight: bold;
+    color: #ffb703;
+    padding-left: 4px;
+}
+
+#DisclaimerLabel {
+    font-size: 16px;
+    font-family: 'Consolas';
+    font-weight: bold;
+    color: #ffb703;
+    padding-left: 4px;
+}
+
+#CBMLabel {
+    font-size: 20px;
+    font-family: 'Consolas';
+    font-weight: bold;
+    color: #ffb703;
+    padding-left: 4px;
+}
+
+#VBMLabel {
+    font-size: 20px;
+    font-family: 'Consolas';
+    font-weight: bold;
+    color: #ffb703;
+    padding-left: 4px;
+}

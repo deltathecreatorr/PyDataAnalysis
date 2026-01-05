@@ -64,17 +64,17 @@ class TitleBar(QWidget):
         Minimises the window.
         """
         
-        self.window().showMinimised()
+        self.window().showMinimized()
 
     def maximise_window(self):
         """
         Maximises the window.
         """
         
-        if self.window().isMaximised():
+        if self.window().isMaximized():
             self.window().showNormal()
         else:
-            self.window().showMaximised()
+            self.window().showMaximized()
 
     def close_window(self):
         """

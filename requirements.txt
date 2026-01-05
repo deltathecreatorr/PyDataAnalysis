@@ -3,3 +3,7 @@ mp-api
 python-dotenv
 db-sqlite3
 keyring
+scipy
+numpy
+plotly
+PyQtWebEngine

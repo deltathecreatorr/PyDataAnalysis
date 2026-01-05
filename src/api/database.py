@@ -77,6 +77,13 @@ def find_record(material_id):
         print(f"Database error: {e}")
 
 def remove_record(material_id):
+    """
+    Removes a record from the database by its material ID.
+    
+    **Arguments**
+        *material_id* (str)
+            - The unique identifier of the material to remove.
+    """
     try:
         with sqlite3.connect(DB_NAME) as conn:
             cursor = conn.cursor()
@@ -84,4 +91,52 @@ def remove_record(material_id):
             conn.commit()
     except sqlite3.Error as e:
         print(f"Database error: {e}")
+
+def add_dos_record(material_id, dos_data):
+    """
+    Adds a new DOS record to the database.
+    
+    **Arguments**
+        *material_id* (str)
+            - The unique identifier for the material.
+        *dos_data* (str)
+            - The JSON string representation of the DOS data.
+    """
+    try:
+        with sqlite3.connect(DB_NAME) as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS dos_records (
+                    id TEXT PRIMARY KEY,
+                    data TEXT NOT NULL
+                )
+            """)
+            
+            # Only insert if it doesn't exist (IGNORE)
+            cursor.execute("INSERT OR IGNORE INTO dos_records (id, data) VALUES (?, ?)", (material_id, dos_data))
+            conn.commit()
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+
+def find_dos_record(material_id):
+    """
+    Retrieves a specific DOS record by its material ID.
+    
+    **Arguments**
+        *material_id* (str)
+            - The unique identifier of the material to retrieve.
+            
+    **Returns**
+        *str* or *None*
+            - The JSON data string if found, otherwise None.
+    """
+    try:
+        with sqlite3.connect(DB_NAME) as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT data FROM dos_records WHERE id = ?", (material_id,))
+            result = cursor.fetchone()
+            return result[0] if result else None
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+
 
